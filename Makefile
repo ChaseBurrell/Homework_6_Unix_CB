@@ -5,7 +5,7 @@
 #
 # Implicit rules
 CXX = g++
-CXXFLAGS = -Wall -g
+CXXFLAGS = -Wall -g -std=c++11
 CPPFLAGS = -I/scratch/perkins/include
 LDFLAGS = -L/scratch/perkins/lib
 LDLIBS = -lcdk -lcurses
@@ -28,19 +28,10 @@ all: $(EXEC)
 clean:
 	rm -f $(OBJS) *.d *~ \#* $(EXEC)
 
-Makefile: $(SRCS:.cc=.d)
-
-# Pattern for .d files.
-%.d:%.cc
-	@echo Updating .d Dependency File
-	@set -e; rm -f $@; \
-	$(CXX) -MM $(CPPFLAGS) $< > $@.$$$$; \
-	sed 's,\($*\)\.o[ :]*,\1.o $@ : ,g' < $@.$$$$ > $@; \
-	rm -f $@.$$$$
 
 #  This is a rule to link the files.  Pretty standard
 $(EXEC): $(OBJS)
-	$(CXX) -o $@ $(OBJS) $(LDFLAGS) $(LDLIBS)
+	$(CXX)  -o $@ $(OBJS) $(LDFLAGS) $(LDLIBS)
 
 
 # Backup Target
@@ -57,6 +48,4 @@ backup:	clean
 	@echo Done!
 
 
-# Include the dependency files
--include $(SRCS:.cc=.d)
 
