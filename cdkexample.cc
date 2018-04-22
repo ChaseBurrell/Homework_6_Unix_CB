@@ -110,10 +110,29 @@ int main()
   result = stream.str();
   setCDKMatrixCell(myMatrix, 1, 3, string( "NumRecords: " +  string(result.c_str())).c_str());
 
+ /*Display up to 4 records*/
+ stream.str("");
+ BinaryFileRecord *myRecord = new BinaryFileRecord();
+ /*Loop to display up to 4 records*/
+ for(int i = 2; i < 6; i ++) { 
+ 	binInFile.read((char *) myRecord, sizeof(BinaryFileRecord));
+ 	if(binInFile) {
+ 		result = to_string(myRecord->strLength);
+ 		setCDKMatrixCell(myMatrix, i, 1, string("strlen: " + result).c_str());
+ 		result = myRecord->stringBuffer;
+ 		setCDKMatrixCell(myMatrix, i, 2, result.c_str());
+ 		continue;
+ 	}
+ 	else {
+  		i = 6;
+  		continue;
+  	}
+ }
+
+
   /*
    * Dipslay a message
    */
-  setCDKMatrixCell(myMatrix, 2, 2, "Test Message");
   drawCDKMatrix(myMatrix, true);    /* required  */
 
   /* So we can see results, pause until a key is pressed. */
