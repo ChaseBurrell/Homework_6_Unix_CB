@@ -116,7 +116,7 @@ int main()
  /*Loop to display up to 4 records*/
  for(int i = 2; i < 6; i ++) { 
  	binInFile.read((char *) myRecord, sizeof(BinaryFileRecord));
- 	if(binInFile) {
+ 	if(!binInFile.eof()) {
  		result = to_string(myRecord->strLength);
  		setCDKMatrixCell(myMatrix, i, 1, string("strlen: " + result).c_str());
  		result = myRecord->stringBuffer;
